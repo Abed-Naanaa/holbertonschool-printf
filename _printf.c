@@ -11,7 +11,7 @@
 int print_char(va_list args)
 {
 	char c = va_arg(args, int);
-
+	
 	return (write(1, &c, 1));
 }
 
@@ -56,8 +56,6 @@ int _printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			if (*format == '\0') /* Handle dangling '%' at the end */
-				break;
 			if (*format == 'c')
 				count += print_char(args);
 			else if (*format == 's')
@@ -65,7 +63,7 @@ int _printf(const char *format, ...)
 			else if (*format == '%')
 				count += write(1, "%", 1);
 			else
-				return (-1); /* Invalid specifier */
+				return (-1);
 		}
 		else
 		{
