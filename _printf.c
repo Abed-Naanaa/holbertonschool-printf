@@ -1,6 +1,7 @@
 #include "main.h"
 #include <unistd.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
 /**
  * print_char - Prints a single character
@@ -37,6 +38,46 @@ int print_string(va_list args)
 }
 
 /**
+ * print_number - Prints an integer as a string
+ * @n: The integer to print
+ *
+ * Return: Number of characters printed
+ */
+int print_number(int n)
+{
+	char buffer[20];
+	int count = 0;
+	int i = 0;
+
+	if (n == 0)
+	{
+		count += write(1, "0", 1);
+		return (count);
+	}
+
+	if (n < 0)
+	{
+		count += write(1, "-", 1);
+		n = -n;
+	}
+
+	/* Store digits in reverse order */
+	while (n > 0)
+	{
+		buffer[i++] = (n % 10) + '0';
+		n /= 10;
+	}
+
+	/* Write the digits in the correct order */
+	while (--i >= 0)
+	{
+		count += write(1, &buffer[i], 1);
+	}
+
+	return (count);
+}
+
+/**
  * _printf - Produces output according to a format
  * @format: Format string containing characters and specifiers
  *
@@ -60,15 +101,18 @@ int _printf(const char *format, ...)
 				count += print_char(args);
 			else if (*format == 's')
 				count += print_string(args);
+			else if (*format == 'd' || *format == 'i')
+				count += print_number(va_arg(args, int));
 			else if (*format == '%')
 				count += write(1, "%", 1);
 			else
-				return (-1);
+			{
+				count += write(1, "%", 1);
+				count += write(1, format, 1);
+			}
 		}
 		else
-		{
 			count += write(1, format, 1);
-		}
 		format++;
 	}
 	va_end(args);
