@@ -46,14 +46,13 @@ int print_string(va_list args)
 int print_number(int n)
 {
 	char buffer[20];
-	int count = 0;
-	int i = 0;
+	int count = 0, i = 0;
+
+	if (n == -2147483648) /* Handle INT_MIN explicitly */
+		return (write(1, "-2147483648", 11));
 
 	if (n == 0)
-	{
-		count += write(1, "0", 1);
-		return (count);
-	}
+		return (write(1, "0", 1));
 
 	if (n < 0)
 	{
@@ -70,9 +69,7 @@ int print_number(int n)
 
 	/* Write the digits in the correct order */
 	while (--i >= 0)
-	{
 		count += write(1, &buffer[i], 1);
-	}
 
 	return (count);
 }
