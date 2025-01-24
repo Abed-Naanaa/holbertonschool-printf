@@ -1,0 +1,85 @@
+.\" Manual for _printf
+.TH _PRINTF 3 "January 2025" "1.0" "_PRINTF LIBRARY"
+.SH NAME
+_printf \- produces output according to a format
+
+.SH SYNOPSIS
+.B #include "main.h"
+
+.B int _printf(const char *format, ...);
+
+.SH DESCRIPTION
+The
+.B _printf()
+function produces output according to a specified
+.IR format .
+The
+.I format
+string contains plain characters and special format specifiers introduced by a '%' character.
+
+When a format specifier is encountered, it is replaced with the corresponding argument's formatted value. Ordinary characters in the format string are written unchanged to the output.
+
+.SH PARAMETERS
+.TP
+.I format
+A constant character string containing text and format specifiers.
+
+.TP
+.I ...
+Variable arguments that are processed according to the format specifiers.
+
+.SH FORMAT SPECIFIERS
+The following format specifiers are supported:
+.TP
+.B %c
+Prints a single character.
+.TP
+.B %s
+Prints a null-terminated string.
+.TP
+.B %d, %i
+Prints an integer in decimal format.
+.TP
+.B %%
+Prints a literal '%' character.
+
+.SH RETURN VALUE
+The
+.B _printf()
+function returns the total number of characters printed, excluding the null-terminating byte. If
+.I format
+is NULL, it returns \-1.
+
+.SH EXAMPLES
+Here are some usage examples:
+.TP
+Printing a string:
+.in +4
+.nf
+_printf("Hello, %s\\n", "world");
+.fi
+
+.TP
+Printing an integer:
+.in +4
+.nf
+_printf("Value: %d\\n", 42);
+.fi
+
+.TP
+Printing a character:
+.in +4
+.nf
+_printf("Character: %c\\n", 'A');
+.fi
+
+.SH ERRORS
+If the
+.I format
+string is NULL, the function returns \-1.
+
+.SH AUTHOR
+Written by Jept and the Holberton School Team.
+
+.SH SEE ALSO
+.BR printf (3)
